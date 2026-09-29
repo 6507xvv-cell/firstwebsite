@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 264" width="264" height="264" role="img" aria-label="默认头像">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2f5ff"/>
+      <stop offset="100%" stop-color="#e4e9fd"/>
+    </linearGradient>
+    <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6b84f9"/>
+      <stop offset="100%" stop-color="#4f6ef7"/>
+    </linearGradient>
+    <clipPath id="round">
+      <rect width="264" height="264" rx="132"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#round)">
+    <rect width="264" height="264" fill="url(#bg)"/>
+
+    <!-- 肩部 -->
+    <path d="M132 168c-46 0-83 30-88 68a132 132 0 0 0 176 0c-5-38-42-68-88-68z"
+          fill="url(#fg)" opacity="0.92"/>
+
+    <!-- 头部 -->
+    <circle cx="132" cy="104" r="46" fill="url(#fg)"/>
+
+    <!-- 高光，让形象不那么呆 -->
+    <circle cx="116" cy="90" r="16" fill="#ffffff" opacity="0.18"/>
+  </g>
+</svg>

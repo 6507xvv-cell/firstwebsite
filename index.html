@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>我的个人主页</title>
+<style>
+/* ==========================================================
+   1. 主题配色：想换风格，只改这里的颜色即可
+   ========================================================== */
+:root{
+  --bg:            #f5f6f8;   /* 页面底色 */
+  --card:          #ffffff;   /* 卡片底色 */
+  --text:          #22252b;   /* 主文字 */
+  --text-sub:      #6b7280;   /* 次要文字 */
+  --line:          #e8eaee;   /* 分割线 */
+  --accent:        #4f6ef7;   /* 主色（点缀、头像环、时间线圆点） */
+  --accent-soft:   #eef1fe;   /* 主色浅底（标签、图标底） */
+  --radius:        18px;      /* 圆角大小 */
+  --maxw:          900px;     /* 内容最大宽度 */
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.75;-webkit-font-smoothing:antialiased;
+}
+
+/* 两屏滚动容器 */
+.screens{
+  height:100vh;height:100dvh;overflow-y:scroll;
+  scroll-snap-type:y mandatory;scroll-behavior:smooth;
+}
+section{
+  scroll-snap-align:start;min-height:100vh;min-height:100dvh;
+  display:flex;align-items:center;justify-content:center;
+  padding:64px 20px;
+}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto}
+
+/* 卡片 */
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:44px 40px;
+  box-shadow:0 8px 30px rgba(20,25,40,.05);
+}
+
+/* ========================= 第一屏：关于我 ========================= */
+.about{text-align:center}
+.avatar{
+  width:132px;height:132px;border-radius:50%;object-fit:cover;
+  border:4px solid #fff;box-shadow:0 0 0 3px var(--accent),0 10px 24px rgba(20,25,40,.12);
+  display:block;margin:0 auto 20px;background:var(--accent-soft);
+}
+.nickname{font-size:30px;font-weight:700;letter-spacing:.5px}
+.tagline{margin-top:8px;color:var(--text-sub);font-size:16px}
+
+.sec-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:600;color:var(--text-sub);
+  letter-spacing:2px;margin:34px 0 14px;
+}
+.sec-title::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.about .sec-title{justify-content:center}
+
+/* 兴趣标签 */
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{
+  background:var(--accent-soft);color:var(--accent);
+  padding:7px 16px;border-radius:999px;font-size:14px;font-weight:500;
+}
+
+/* 学习目标 */
+.goals{list-style:none;text-align:left;max-width:560px;margin:0 auto;display:grid;gap:10px}
+.goals li{
+  background:#fafbfc;border:1px solid var(--line);border-radius:12px;
+  padding:12px 16px;font-size:15px;display:flex;gap:12px;align-items:flex-start;
+}
+.goals .n{
+  flex:0 0 22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;
+  font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:3px;
+}
+
+/* ========================= 第二屏：学习记录 ========================= */
+.sec-head{text-align:center;margin-bottom:36px}
+.sec-head h2{font-size:26px;font-weight:700}
+.sec-head p{margin-top:6px;color:var(--text-sub);font-size:15px}
+
+.timeline{position:relative;padding-left:34px}
+.timeline::before{
+  content:"";position:absolute;left:9px;top:10px;bottom:10px;width:2px;
+  background:linear-gradient(var(--accent),var(--line));
+}
+.item{position:relative;padding:0 0 30px}
+.item:last-child{padding-bottom:0}
+.item::before{
+  content:"";position:absolute;left:-31px;top:8px;width:14px;height:14px;
+  border-radius:50%;background:#fff;border:3px solid var(--accent);
+}
+.date{font-size:13px;color:var(--text-sub);letter-spacing:1px}
+.title{font-size:18px;font-weight:600;margin:2px 0 4px}
+.desc{font-size:15px;color:var(--text-sub)}
+.tag{
+  display:inline-block;margin-top:10px;background:var(--accent-soft);color:var(--accent);
+  font-size:12px;padding:3px 10px;border-radius:6px;
+}
+
+/* ========================= 右上角天气卡片 ========================= */
+.weather{
+  position:fixed;top:22px;right:22px;z-index:12;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:12px 16px;
+  box-shadow:0 8px 24px rgba(20,25,40,.06);
+  display:flex;align-items:center;gap:12px;
+  min-width:190px;font-size:13px;color:var(--text-sub);
+  animation:fadeIn .5s ease both;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.weather .w-icon{
+  flex:0 0 42px;height:42px;border-radius:12px;
+  background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+}
+.weather .w-icon svg{width:23px;height:23px;display:block;overflow:visible}
+.weather .w-main{display:flex;flex-direction:column;gap:1px;min-width:0}
+.weather .w-city{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;letter-spacing:1px;color:var(--text-sub);
+}
+.weather .w-city .w-dot{flex:0 0 6px;height:6px;border-radius:50%;background:var(--accent)}
+.weather .w-city b{color:var(--text);font-weight:600;letter-spacing:.5px;font-size:13px}
+.weather .w-temp{font-size:22px;font-weight:700;color:var(--text);line-height:1.25;margin-top:2px}
+.weather .w-temp span{font-size:12.5px;font-weight:500;color:var(--text-sub);margin-left:5px}
+.weather .w-desc{font-size:12.5px;color:var(--accent)}
+.weather .w-extra{font-size:11.5px;color:#a8adb8;margin-top:3px}
+.weather.err .w-desc{color:var(--text-sub)}
+/* 窄屏时收窄一点，避免和中间的白色卡片挤在一起 */
+@media (max-width:1320px){
+  .weather{top:16px;right:16px;padding:10px 13px;min-width:170px;gap:10px}
+  .weather .w-icon{flex:0 0 38px;height:38px}
+  .weather .w-temp{font-size:20px}
+}
+
+/* ========================= 第三屏：一键去除图片背景 ========================= */
+/* 服务连接状态 */
+.svc{
+  display:inline-flex;align-items:center;gap:7px;margin-top:12px;
+  font-size:12.5px;color:var(--text-sub);
+  background:#fafbfc;border:1px solid var(--line);
+  padding:5px 13px;border-radius:999px;
+}
+.svc .svc-dot{width:7px;height:7px;border-radius:50%;background:#c9cdd6;flex:0 0 auto}
+.svc.on{color:#2f9e63;border-color:#cdeadb;background:#f3fbf6}
+.svc.on .svc-dot{background:#2f9e63}
+.svc.off{color:#a1731b;border-color:#f0e2c4;background:#fdf9f0}
+.svc.off .svc-dot{background:#d9a441}
+
+/* 拖拽上传区 */
+.drop{
+  border:1.5px dashed #d3d7e0;border-radius:14px;background:#fafbfc;
+  padding:26px 20px;text-align:center;cursor:pointer;transition:.2s;
+}
+.drop:hover{border-color:var(--accent);background:var(--accent-soft)}
+.drop.over{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.01)}
+.drop:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.drop svg{width:34px;height:34px;color:var(--accent);opacity:.9}
+.drop-t{margin-top:10px;font-size:15px;color:var(--text)}
+.drop-t b{color:var(--accent);font-weight:600}
+.drop-s{margin-top:5px;font-size:12.5px;color:var(--text-sub)}
+
+/* 原图 / 结果 对比 */
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin-top:22px}
+.pane{margin:0}
+.pane-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pane-tag{
+  font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text-sub);
+  background:var(--accent-soft);color:var(--accent);padding:3px 10px;border-radius:6px;
+}
+.pane-h .badge{font-size:11.5px;color:#a8adb8;margin-left:auto}
+.pane-h .badge.done{color:#2f9e63}
+.pane-h .badge.bad{color:#d1483a}
+/* 棋盘格背景，用来显示透明区域 */
+.box{
+  position:relative;height:230px;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background-color:#fff;
+  background-image:
+    linear-gradient(45deg,#eef0f4 25%,transparent 25%),
+    linear-gradient(-45deg,#eef0f4 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#eef0f4 75%),
+    linear-gradient(-45deg,transparent 75%,#eef0f4 75%);
+  background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;
+}
+.box img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;padding:10px;opacity:0;transition:opacity .3s;
+}
+.box img.show{opacity:1}
+.box .empty{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:#b3b8c4;
+}
+.box .empty.hide{display:none}
+.arrow{font-size:20px;color:#c9cdd6}
+
+/* 处理中的转圈 */
+.spin{
+  position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;
+  border:3px solid var(--accent-soft);border-top-color:var(--accent);
+  border-radius:50%;animation:sp .8s linear infinite;display:none;
+}
+.spin.on{display:block}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* 按钮组 */
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{
+  font:inherit;font-size:14px;font-weight:500;
+  padding:11px 22px;border-radius:10px;cursor:pointer;transition:.2s;
+  border:1px solid var(--line);background:#fff;color:var(--text);
+}
+.btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover:not(:disabled){filter:brightness(1.06);color:#fff}
+.btn:disabled{background:#eef0f4;border-color:var(--line);color:#aab0bb;cursor:not-allowed}
+.btn.primary.busy{background:#aab0bb;border-color:#aab0bb;color:#fff}
+
+/* 提示条 */
+.msg{margin-top:14px;font-size:13px;line-height:1.7;display:none}
+.msg.on{display:block}
+.msg.err{color:#d1483a}
+.msg.warn{color:#a1731b}
+.msg.ok{color:#2f9e63}
+.msg code{
+  background:#f2f4f8;padding:2px 6px;border-radius:5px;font-size:12px;
+  font-family:ui-monospace,Consolas,monospace;
+}
+
+/* 窄屏：对比图上下排列 */
+@media (max-width:760px){
+  .cmp{grid-template-columns:1fr;gap:10px}
+  .arrow{transform:rotate(90deg);justify-self:center}
+  .box{height:190px}
+}
+
+/* ==========================================================
+   第四屏：AI 图像生成 —— 谷歌极简风
+   全部样式锁在 .gg 里，不会影响到前三屏
+   ========================================================== */
+.gg{
+  --g-blue:#1a73e8; --g-blue-h:#1765cc; --g-blue-soft:#e8f0fe; --g-blue-line:#c6dafc;
+  --g-text:#202124; --g-sub:#5f6368; --g-line:#dadce0; --g-bg:#f1f3f4;
+  font-family:Roboto,"Google Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  color:var(--g-text); letter-spacing:0;
+}
+.gg-panel{
+  background:#fff;border:1px solid var(--g-line);border-radius:8px;
+  padding:28px 26px;box-shadow:0 1px 2px rgba(60,64,67,.08),0 1px 3px 1px rgba(60,64,67,.06);
+}
+.gg h2{font-size:22px;font-weight:400;letter-spacing:.2px}
+.gg .gg-sub{margin-top:4px;font-size:14px;color:var(--g-sub)}
+.gg-sec{margin-top:22px}
+.gg-label{
+  font-size:12px;font-weight:500;color:var(--g-sub);
+  letter-spacing:.8px;margin-bottom:9px;
+}
+/* 输入框：谷歌式描边，聚焦变蓝 */
+.gg-input{
+  width:100%;min-height:96px;resize:vertical;
+  font:inherit;font-size:15px;line-height:1.6;color:var(--g-text);
+  padding:12px 14px;border:1px solid var(--g-line);border-radius:8px;
+  background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.gg-input::placeholder{color:#9aa0a6}
+.gg-input:focus{border-color:var(--g-blue);box-shadow:0 0 0 1px var(--g-blue)}
+/* 选项芯片 */
+.gg-chips{display:flex;flex-wrap:wrap;gap:8px}
+.gg-chip{
+  font:inherit;font-size:13px;color:var(--g-sub);cursor:pointer;
+  padding:7px 15px;border:1px solid var(--g-line);border-radius:8px;
+  background:#fff;transition:.15s;
+}
+.gg-chip:hover{border-color:#9aa0a6;color:var(--g-text)}
+.gg-chip.on{
+  background:var(--g-blue-soft);border-color:var(--g-blue-line);
+  color:var(--g-blue);font-weight:500;
+}
+/* 主按钮 */
+.gg-btn{
+  font:inherit;font-size:14px;font-weight:500;letter-spacing:.25px;
+  padding:0 24px;height:40px;border-radius:8px;border:1px solid transparent;
+  background:var(--g-blue);color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;transition:.15s;
+}
+.gg-btn:hover:not(:disabled){background:var(--g-blue-h);box-shadow:0 1px 2px rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15)}
+.gg-btn:disabled{background:#f1f3f4;color:#9aa0a6;cursor:not-allowed;border-color:transparent;box-shadow:none}
+.gg-btn.ghost{background:#fff;color:var(--g-blue);border-color:var(--g-line)}
+.gg-btn.ghost:hover:not(:disabled){background:var(--g-blue-soft);border-color:var(--g-blue-line);box-shadow:none}
+.gg-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+/* 转圈（谷歌蓝） */
+.gg-spin{
+  width:15px;height:15px;border:2px solid #c6dafc;border-top-color:var(--g-blue);
+  border-radius:50%;animation:ggsp .8s linear infinite;
+}
+@keyframes ggsp{to{transform:rotate(360deg)}}
+/* 顶部进度条（流式生成时） */
+.gg-bar{height:3px;background:var(--g-bg);border-radius:2px;overflow:hidden;margin-top:18px;display:none}
+.gg-bar.on{display:block}
+.gg-bar i{display:block;height:100%;width:38%;background:var(--g-blue);border-radius:2px;animation:ggbar 1.3s ease-in-out infinite}
+@keyframes ggbar{0%{margin-left:-38%}100%{margin-left:100%}}
+/* 画布 */
+.gg-canvas{
+  margin-top:16px;background:var(--g-bg);border-radius:8px;
+  min-height:280px;display:flex;align-items:center;justify-content:center;
+  padding:16px;position:relative;overflow:hidden;
+}
+.gg-canvas img{max-width:100%;max-height:420px;border-radius:6px;display:block;
+  box-shadow:0 1px 3px rgba(60,64,67,.2)}
+.gg-canvas .gg-ph{font-size:14px;color:#80868b;text-align:center;line-height:1.7}
+.gg-meta{margin-top:12px;font-size:12.5px;color:var(--g-sub);min-height:18px}
+.gg-meta .t{color:var(--g-blue)}
+.gg-msg{margin-top:14px;font-size:13.5px;line-height:1.65;display:none}
+.gg-msg.on{display:block}
+.gg-msg.err{color:#d93025}
+.gg-msg.ok{color:#188038}
+.gg-msg code{background:#f1f3f4;padding:2px 6px;border-radius:4px;font-size:12px;
+  font-family:ui-monospace,Consolas,monospace}
+/* 服务状态 */
+.gg-svc{
+  display:inline-flex;align-items:center;gap:7px;margin-top:10px;
+  font-size:12.5px;color:var(--g-sub);background:#fff;
+  border:1px solid var(--g-line);padding:4px 12px;border-radius:999px;
+}
+.gg-svc i{width:7px;height:7px;border-radius:50%;background:#dadce0;display:block}
+.gg-svc.on{color:#188038;border-color:#ceead6}.gg-svc.on i{background:#188038}
+.gg-svc.off{color:#b06000;border-color:#f0e0c0}.gg-svc.off i{background:#e8a33d}
+
+@media (max-width:640px){
+  .gg-panel{padding:22px 18px}
+  .gg-canvas{min-height:210px}
+  .gg-acts{gap:8px}
+  .gg-btn{padding:0 18px}
+}
+
+/* 右侧屏导航点 */
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:grid;gap:12px;z-index:10}
+.dot{width:9px;height:9px;border-radius:50%;background:#c9cdd6;border:none;cursor:pointer;padding:0;transition:.25s}
+.dot.on{background:var(--accent);transform:scale(1.35)}
+
+/* 向下提示 */
+.hint{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  font-size:12px;color:#a8adb8;letter-spacing:2px;animation:float 2s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+section{position:relative}
+
+footer{text-align:center;color:#a8adb8;font-size:13px;padding:0 20px 40px}
+
+@media (max-width:640px){
+  section{padding:52px 16px}
+  .card{padding:32px 22px;border-radius:16px}
+  .avatar{width:104px;height:104px}
+  .nickname{font-size:25px}
+  .dots{right:10px}
+  .timeline{padding-left:28px}
+  .item::before{left:-25px}
+  .timeline::before{left:7px}
+
+  /* 手机上天气卡片回到正常流里，避免挡住内容 */
+  .weather{
+    position:static;margin:0 auto 18px;width:fit-content;
+    padding:10px 14px;min-width:0;top:auto;right:auto;
+  }
+  .weather .w-icon{flex:0 0 38px;height:38px}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= 右侧屏导航（自动跟随） ======================= -->
+<div class="dots">
+  <button class="dot on" data-i="0" aria-label="关于我"></button>
+  <button class="dot" data-i="1" aria-label="我的学习记录"></button>
+  <button class="dot" data-i="2" aria-label="去除图片背景"></button>
+  <button class="dot" data-i="3" aria-label="AI 图像生成"></button>
+</div>
+
+<div class="screens" id="screens">
+
+  <!-- ========================= 第一屏：关于我 ========================= -->
+  <section id="s1">
+    <div class="wrap">
+
+      <!-- ============ 右上角天气（数据来自 Open-Meteo，无需 API Key） ============ -->
+      <div class="weather" id="weather" title="实时天气数据来自 Open-Meteo">
+        <div class="w-icon" id="wIcon"></div>
+        <div class="w-main">
+          <div class="w-city"><span class="w-dot"></span><b id="wCity">北京</b><span>实时天气</span></div>
+          <div class="w-temp" id="wTemp">--°<span id="wRange"></span></div>
+          <div class="w-desc" id="wDesc">正在获取…</div>
+          <div class="w-extra" id="wExtra">连接 Open-Meteo</div>
+        </div>
+      </div>
+
+      <div class="card about">
+        <!-- 头像：换图片就把 src 换成新的文件名 -->
+        <img class="avatar" id="avatar" src="证件照近期.jpg" alt="我的头像">
+
+        <div class="nickname" id="nickname">靖博</div>
+        <div class="tagline" id="tagline">在传媒与代码的交叉口，慢慢把想法做成东西。</div>
+
+        <div class="sec-title">兴趣爱好</div>
+        <div class="chips" id="hobbies"><!-- 兴趣标签由脚本生成 --></div>
+
+        <div class="sec-title">学习目标</div>
+        <ul class="goals" id="goals"><!-- 学习目标由脚本生成 --></ul>
+      </div>
+    </div>
+    <div class="hint">向下滚动 ↓</div>
+  </section>
+
+  <!-- ======================= 第二屏：我的学习记录 ======================= -->
+  <section id="s2">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>我的学习记录</h2>
+        <p>每一步都算数 · 持续更新中</p>
+      </div>
+      <div class="card">
+        <div class="timeline" id="timeline"><!-- 时间线由脚本生成 --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 第三屏：一键去除图片背景 ======================= -->
+  <section id="s3">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>一键去除图片背景</h2>
+        <p>本地上传 · Replicate lucataco/remove-bg · 结果可直接下载</p>
+        <div class="svc" id="svc"><span class="svc-dot"></span><span id="svcText">正在检测本地服务…</span></div>
+      </div>
+      <div class="card">
+
+        <!-- 上传：点击 / 拖拽 / 粘贴 都支持 -->
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="选择图片">
+          <input type="file" id="file" accept="image/*" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <path d="M7.5 9.5 12 5l4.5 4.5"/><path d="M12 5v12"/>
+          </svg>
+          <div class="drop-t">把图片拖到这里，或 <b>点击选择文件</b></div>
+          <div class="drop-s">支持 PNG / JPG / WebP / GIF，也可以直接 Ctrl + V 粘贴（≤ 10MB）</div>
+        </div>
+
+        <!-- 对比：左原图，右结果 -->
+        <div class="cmp">
+          <figure class="pane">
+            <div class="pane-h"><span class="pane-tag">原图</span></div>
+            <div class="box">
+              <img id="imgA" alt="原图预览">
+              <div class="empty" id="emptyA">尚未选择图片</div>
+            </div>
+          </figure>
+
+          <div class="arrow" aria-hidden="true">→</div>
+
+          <figure class="pane">
+            <div class="pane-h"><span class="pane-tag">去背景后</span><span class="badge" id="badge">等待处理</span></div>
+            <div class="box">
+              <img id="imgB" alt="去背景结果">
+              <div class="empty" id="emptyB">处理完成后显示</div>
+              <div class="spin" id="spin"></div>
+            </div>
+          </figure>
+        </div>
+
+        <div class="acts">
+          <button class="btn primary" id="btnRun" disabled>去除背景</button>
+          <button class="btn" id="btnDown" disabled>下载结果</button>
+          <button class="btn" id="btnReset">重新选择</button>
+        </div>
+
+        <div class="msg" id="msg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 第四屏：AI 图像生成（谷歌极简风） ======================= -->
+  <section id="s4" class="gg">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>AI 图像生成</h2>
+        <p>用一句话描述画面，交给 OpenRouter 上的 GPT-5.4 Image 2</p>
+        <div class="gg-svc" id="ggSvc"><i></i><span id="ggSvcText">正在检测服务…</span></div>
+      </div>
+
+      <div class="gg-panel">
+        <div class="gg-sec" style="margin-top:0">
+          <div class="gg-label">画面描述</div>
+          <textarea class="gg-input" id="ggPrompt" rows="3"
+            placeholder="例如：黄昏时分的街角书店，暖黄霓虹灯亮起，湿润的地面映出倒影，写实摄影风格"></textarea>
+        </div>
+
+        <div class="gg-sec">
+          <div class="gg-label">宽高比</div>
+          <div class="gg-chips" id="ggRatio">
+            <button class="gg-chip on" data-v="1:1">1:1</button>
+            <button class="gg-chip" data-v="16:9">16:9</button>
+            <button class="gg-chip" data-v="9:16">9:16</button>
+            <button class="gg-chip" data-v="4:3">4:3</button>
+            <button class="gg-chip" data-v="3:4">3:4</button>
+          </div>
+        </div>
+
+        <div class="gg-sec">
+          <div class="gg-label">画质</div>
+          <div class="gg-chips" id="ggQuality">
+            <button class="gg-chip" data-v="auto">自动</button>
+            <button class="gg-chip" data-v="low">低</button>
+            <button class="gg-chip" data-v="medium">中</button>
+            <button class="gg-chip on" data-v="high">高</button>
+          </div>
+        </div>
+
+        <div class="gg-sec">
+          <div class="gg-label">背景</div>
+          <div class="gg-chips" id="ggBg">
+            <button class="gg-chip on" data-v="auto">自动</button>
+            <button class="gg-chip" data-v="transparent">透明</button>
+            <button class="gg-chip" data-v="opaque">不透明</button>
+          </div>
+        </div>
+
+        <div class="gg-acts">
+          <button class="gg-btn" id="ggRun" disabled>
+            <span class="gg-spin" id="ggSpin" hidden></span><span id="ggRunText">生成图片</span>
+          </button>
+          <button class="gg-btn ghost" id="ggDown" disabled>下载 PNG</button>
+          <button class="gg-btn ghost" id="ggClear">清空</button>
+        </div>
+
+        <div class="gg-bar" id="ggBar"><i></i></div>
+
+        <div class="gg-canvas" id="ggCanvas">
+          <div class="gg-ph" id="ggPh">生成结果会显示在这里<br><span style="font-size:12.5px">这个模型比较慢，通常要 1～2 分钟</span></div>
+          <img id="ggImg" alt="生成的图片" hidden>
+        </div>
+
+        <div class="gg-meta" id="ggMeta"></div>
+        <div class="gg-msg" id="ggMsg"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+/* ==========================================================
+   2. 内容配置：所有文字都在这里改，改完刷新页面即可
+   ========================================================== */
+
+const PROFILE = {
+  avatar:   "证件照近期.jpg",   // 头像图片路径（和 index.html 放同一个文件夹）
+  nickname: "靖博",                         // 昵称
+  tagline:  "在传媒与代码的交叉口，慢慢把想法做成东西。",  // 一句话介绍
+
+  hobbies: ["阅读","摄影","编程","剪辑","跑步","音乐"],   // 兴趣爱好，随意增删
+
+  goals: [                                                // 学习目标，随意增删
+    "打好 Python 基础，能独立写小工具",
+    "掌握网页三件套，做出真正能用的页面",
+    "了解数据分析，用数据讲好一个故事",
+    "保持每周至少一次输出与复盘"
+  ]
+};
+
+/* 学习记录：往下继续加新条目就行，最新的写在最前面（或按日期自动排序） */
+const RECORDS = [
+  {
+    date:  "2026.09.29",
+    title: "第一个接模型的网页功能",
+    desc:  "加上「一键去除图片背景」：拖拽上传、调 Replicate 的 lucataco/remove-bg、原图与结果并排对比、结果可下载。Token 放在服务端环境变量里，前端只跟自己的接口说话，不碰密钥。",
+    tag:   "全栈"
+  },
+  {
+    date:  "2026.09.29",
+    title: "第一次 API 调用",
+    desc:  "用 fetch 接上了 Open-Meteo 开放天气接口——不需要 API Key，发一个请求就能拿到北京的实时温度、湿度和风速，再把它渲染进页面。第一次让网页连上了真实世界。",
+    tag:   "API"
+  },
+  {
+    date:  "2026.09.29",
+    title: "第一个个人网页",
+    desc:  "我的个人主页 —— 从零写出第一个完整的 HTML 页面，两屏布局、时间线、响应式适配一次搞定。",
+    tag:   "前端"
+  },
+  {
+    date:  "2026.09.20",
+    title: "第一个功能实现：爬虫抓取",
+    desc:  "用 Python 写出第一个能跑通的爬虫，成功把网页上的数据抓下来存进本地文件。",
+    tag:   "Python"
+  }
+];
+
+const FOOTER = "© 2026 靖博 · 用一台电脑，学一点真本事";
+
+/* ==========================================================
+   3. 渲染逻辑（一般不用改）
+   ========================================================== */
+const $ = id => document.getElementById(id);
+
+$("avatar").src = PROFILE.avatar;
+$("avatar").alt = PROFILE.nickname + "的头像";
+$("nickname").textContent = PROFILE.nickname;
+$("tagline").textContent  = PROFILE.tagline;
+$("footer").textContent   = FOOTER;
+
+$("hobbies").innerHTML = PROFILE.hobbies
+  .map(h => `<span class="chip">${h}</span>`).join("");
+
+$("goals").innerHTML = PROFILE.goals
+  .map((g,i) => `<li><span class="n">${i+1}</span><span>${g}</span></li>`).join("");
+
+$("timeline").innerHTML = [...RECORDS].sort((a,b) => b.date.localeCompare(a.date))
+  .map(r => `
+    <div class="item">
+      <div class="date">${r.date}</div>
+      <div class="title">${r.title}</div>
+      <div class="desc">${r.desc}</div>
+      ${r.tag ? `<span class="tag">${r.tag}</span>` : ""}
+    </div>`).join("");
+
+/* 导航点：点击跳屏 + 跟随滚动高亮 */
+const screens = $("screens");
+const secs    = document.querySelectorAll("section");
+const dots    = document.querySelectorAll(".dot");
+
+dots.forEach(d => d.onclick = () => secs[d.dataset.i].scrollIntoView({behavior:"smooth"}));
+
+screens.addEventListener("scroll", () => {
+  const mid = screens.scrollTop + screens.clientHeight / 2;
+  let cur = 0;
+  secs.forEach((s,i) => { if (s.offsetTop <= mid) cur = i; });
+  dots.forEach(d => d.classList.toggle("on", +d.dataset.i === cur));
+}, {passive:true});
+
+/* ==========================================================
+   4. 右上角天气：Open-Meteo（免费、无需 API Key）
+   ========================================================== */
+const CITY = { name:"北京", lat:39.9042, lon:116.4074 };
+
+/* WMO 天气代码 → 中文描述 + 图标名 */
+const WMO = {
+  0:["晴","sun"],      1:["大部晴朗","sun"],   2:["局部多云","partly"], 3:["阴","cloud"],
+  45:["雾","fog"],     48:["雾凇","fog"],
+  51:["毛毛雨","rain"],53:["毛毛雨","rain"],   55:["密集毛毛雨","rain"],
+  56:["冻毛毛雨","rain"],57:["冻毛毛雨","rain"],
+  61:["小雨","rain"],  63:["中雨","rain"],     65:["大雨","rain"],
+  66:["冻雨","rain"],  67:["冻雨","rain"],
+  71:["小雪","snow"],  73:["中雪","snow"],     75:["大雪","snow"],  77:["米雪","snow"],
+  80:["小阵雨","rain"],81:["中阵雨","rain"],   82:["强阵雨","rain"],
+  85:["小阵雪","snow"],86:["大阵雪","snow"],
+  95:["雷阵雨","storm"],96:["雷阵雨伴冰雹","storm"],99:["雷阵雨伴冰雹","storm"]
+};
+
+/* 线描天气图标（沿用页面主色 currentColor） */
+const CLOUD_L = "M17.5 9h-1.2A8 8 0 1 0 8 19h9.5a5 5 0 0 0 0-10z";            // 云（占位满格）
+const CLOUD_S = "M17.5 7.5h-1.2A8 8 0 1 0 8 17h9.5a4.75 4.75 0 0 0 0-9.5z";    // 云（上方留白）
+const ICONS = {
+  sun:    `<circle cx="12" cy="12" r="4.6"/><path d="M12 1.8v2.2M12 20v2.2M3.3 12H1.1M22.9 12h-2.2M5.4 5.4 3.8 3.8M20.2 20.2l-1.6-1.6M18.6 5.4l1.6-1.6M3.8 20.2l1.6-1.6"/>`,
+  partly: `<circle cx="16.6" cy="7.6" r="3.3"/><path d="M16.6 1.9v1.4M22.5 7.6h-1.4M20.9 3.3l-1 1"/><path d="M16 12.5h-1.1A7.5 7.5 0 1 0 7.5 19.5h8.5a3.5 3.5 0 0 0 0-7z"/>`,
+  cloud:  `<path d="${CLOUD_L}"/>`,
+  rain:   `<path d="${CLOUD_S}"/><path d="M9 20.4l-1 2.7M12.5 20.4l-1 2.7M16 20.4l-1 2.7"/>`,
+  snow:   `<path d="${CLOUD_S}"/><path stroke-width="2.2" stroke-linecap="round" d="M9 21.6h.01M12.5 20.1h.01M16 21.6h.01"/>`,
+  fog:    `<path d="${CLOUD_S}"/><path d="M4.6 20.3h14.8M6.8 22.7h10.4"/>`,
+  storm:  `<path d="${CLOUD_S}"/><path stroke-linejoin="round" d="M13.2 17.6l-2.4 3.1h2.2l-1.4 2.4"/>`
+};
+const svgIcon = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+  stroke-linecap="round">${ICONS[name] || ICONS.cloud}</svg>`;
+
+const API = `https://api.open-meteo.com/v1/forecast?latitude=${CITY.lat}&longitude=${CITY.lon}`
+          + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m`
+          + `&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&forecast_days=1`;
+
+async function loadWeather(){
+  const box = $("weather"), icon = $("wIcon");
+  try{
+    const res  = await fetch(API);
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    const d    = await res.json();
+    const c    = d.current, day = d.daily;
+    const [txt, ico] = WMO[c.weather_code] || ["未知","cloud"];
+    const tmax = Math.round(day.temperature_2m_max[0]);
+    const tmin = Math.round(day.temperature_2m_min[0]);
+
+    $("wCity").textContent   = CITY.name;
+    $("wTemp").innerHTML     = `${Math.round(c.temperature_2m)}°<span>${tmin}° / ${tmax}°</span>`;
+    $("wDesc").textContent   = txt;
+    $("wExtra").textContent  = `湿度 ${c.relative_humidity_2m}% · 风 ${c.wind_speed_10m} km/h · 更新于 ${c.time.slice(11,16)}`;
+    icon.innerHTML           = svgIcon(ico);
+    box.classList.remove("err");
+  }catch(e){
+    icon.innerHTML          = svgIcon("cloud");
+    $("wTemp").innerHTML    = `--°<span></span>`;
+    $("wDesc").textContent  = "天气暂时获取不到";
+    $("wExtra").textContent = "请检查网络后刷新";
+    box.classList.add("err");
+  }
+}
+loadWeather();
+setInterval(loadWeather, 15 * 60 * 1000);   // 每 15 分钟自动刷新一次
+
+/* ==========================================================
+   4.5 后端地址自动发现（第三屏、第四屏共用）
+   页面可能不是由 server.js 托管的（比如被编辑器预览面板打开），
+   那时 /api/... 会 404。所以挨个试几个地址，找到能用的那个。
+   ========================================================== */
+let API_BASE = null;                       // null = 还没找到
+const API_CANDIDATES = (() => {
+  const list = [];
+  if (location.protocol !== "file:") list.push("");                 // 同源优先
+  ["http://localhost:5173", "http://127.0.0.1:5173"].forEach(u => {
+    if (!list.includes(u)) list.push(u);
+  });
+  return list;
+})();
+
+async function findApi(){
+  for (const base of API_CANDIDATES){
+    try{
+      const r = await fetch(base + "/api/health", { cache: "no-store" });
+      if (!r.ok) continue;
+      // 静态服务器返回的 404 页面不是 JSON，据此排除
+      if (!(r.headers.get("content-type") || "").includes("json")) continue;
+      const j = await r.json();
+      if (j && j.ok){ API_BASE = base; return j; }
+    }catch(_){ /* 这个地址不通，试下一个 */ }
+  }
+  return null;
+}
+
+/* ==========================================================
+   5. 第三屏：一键去除图片背景
+      前端只把图片交给本地 /api/remove-bg，Token 永远待在服务端
+   ========================================================== */
+(function(){
+  const drop  = $("drop"),  file   = $("file"),
+        imgA  = $("imgA"),  imgB   = $("imgB"),
+        empA  = $("emptyA"), empB  = $("emptyB"),
+        spin  = $("spin"),  badge  = $("badge"), msg = $("msg"),
+        btnRun= $("btnRun"), btnDown = $("btnDown"), btnReset = $("btnReset");
+
+  const MAX_SIZE = 10 * 1024 * 1024;   // 前端先挡一道，太大 Replicate 也容易超时
+  let dataUrl = null, resultUrl = null, busy = false;
+
+  const svc = $("svc"), svcText = $("svcText");
+  const setSvc = (state, text) => {
+    svc.className = "svc" + (state ? " " + state : "");
+    svcText.textContent = text;
+  };
+
+  async function ensureApi(){
+    if (API_BASE !== null) return { ok: true, token: true };
+    const j = await findApi();
+    if (j){
+      const where = API_BASE ? API_BASE.replace(/^https?:\/\//, "") : location.host;
+      setSvc("on", j.token ? `本地服务已连接 · ${where}` : `服务已连接但缺少 Token · ${where}`);
+      return j;
+    }
+    setSvc("off", "未连接本地服务 · 请在文件夹里运行 node server.js");
+    return null;
+  }
+
+  const setMsg = (text, type) => {
+    msg.innerHTML = text || "";
+    msg.className = "msg" + (text ? " on " + (type || "") : "");
+  };
+  const badgeSet = (text, cls) => { badge.textContent = text; badge.className = "badge " + (cls || ""); };
+  const showImg  = (img, empty, url) => {
+    if (url) { img.src = url; img.classList.add("show"); empty.classList.add("hide"); }
+    else     { img.classList.remove("show"); img.removeAttribute("src"); empty.classList.remove("hide"); }
+  };
+
+  /* ---- 选图：点击 / 拖拽 / 粘贴 ---- */
+  function pick(f){
+    if (!f) return;
+    if (!/^image\//.test(f.type))            return setMsg("这不是图片文件，换一张试试。", "err");
+    if (f.size > MAX_SIZE)                   return setMsg(`图片有 ${(f.size/1048576).toFixed(1)}MB，超过 10MB 了，先压缩一下。`, "err");
+
+    const fr = new FileReader();
+    fr.onload = () => {
+      dataUrl = fr.result; resultUrl = null;
+      showImg(imgA, empA, dataUrl);
+      showImg(imgB, empB, null);
+      badgeSet("等待处理", "");
+      btnRun.disabled = false; btnRun.textContent = "去除背景";
+      btnDown.disabled = true;
+      setMsg("");
+    };
+    fr.readAsDataURL(f);
+  }
+
+  drop.onclick = () => file.click();
+  drop.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); file.click(); } };
+  file.onchange = e => pick(e.target.files[0]);
+
+  ["dragenter","dragover"].forEach(t => drop.addEventListener(t, e => {
+    e.preventDefault(); drop.classList.add("over");
+  }));
+  ["dragleave","dragend"].forEach(t => drop.addEventListener(t, () => drop.classList.remove("over")));
+  drop.addEventListener("drop", e => {
+    e.preventDefault(); drop.classList.remove("over");
+    pick(e.dataTransfer.files && e.dataTransfer.files[0]);
+  });
+  // 页面空白处粘贴图片也能用
+  document.addEventListener("paste", e => {
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (const it of items) if (it.type.startsWith("image/")) { pick(it.getAsFile()); break; }
+  });
+
+  /* ---- 去除背景 ---- */
+  btnRun.onclick = async () => {
+    if (busy || !dataUrl) return;
+    busy = true;
+    btnRun.disabled = true; btnRun.classList.add("busy"); btnRun.textContent = "处理中…";
+    btnDown.disabled = true;
+    spin.classList.add("on"); empB.classList.add("hide");
+    badgeSet("处理中", "");
+    setMsg("");
+
+    try{
+      const health = await ensureApi();
+      if (!health) throw new Error("OFFLINE");
+      if (!health.token) throw new Error("服务端没读到 REPLICATE_API_TOKEN：设置环境变量后重启 node server.js");
+
+      const res = await fetch(API_BASE + "/api/remove-bg", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ image: dataUrl })
+      });
+
+      // 响应不是 JSON，说明请求没打到我们的接口（多半是页面被别的服务器托管了）
+      const isJson = (res.headers.get("content-type") || "").includes("json");
+      const data = isJson ? await res.json().catch(() => ({})) : {};
+      if (!res.ok){
+        if (data.error) throw new Error(data.error);
+        if (res.status === 404) throw new Error("接口返回 404：当前页面不是 node server.js 打开的，改用 http://localhost:5173 访问");
+        throw new Error(`请求失败（${res.status}）`);
+      }
+
+      resultUrl = data.output;
+      showImg(imgB, empB, resultUrl);
+      badgeSet("完成 ✓", "done");
+      btnDown.disabled = false;
+      btnRun.textContent = "重新处理";
+      setMsg("背景已去掉，结果是透明 PNG，点「下载结果」保存到本地。", "ok");
+    }catch(err){
+      badgeSet("失败", "bad");
+      showImg(imgB, empB, null);
+      const offline = (err.message === "OFFLINE") || (err instanceof TypeError);
+      setMsg(offline
+        ? "连不上本地服务。请在项目文件夹里执行 <code>node server.js</code>，然后访问 <code>http://localhost:5173</code>。"
+        : "处理失败：" + err.message, "err");
+      btnRun.textContent = "重试";
+    }finally{
+      busy = false;
+      spin.classList.remove("on");
+      btnRun.classList.remove("busy");
+      btnRun.disabled = !dataUrl;
+      if (!resultUrl) empB.classList.remove("hide");
+    }
+  };
+
+  /* ---- 下载：走服务端代理，避免跨域和 CORS 问题 ---- */
+  btnDown.onclick = () => {
+    if (!resultUrl) return;
+    window.location.href = (API_BASE || "") + "/api/fetch-image?url=" + encodeURIComponent(resultUrl);
+  };
+
+  /* ---- 重置 ---- */
+  btnReset.onclick = () => {
+    dataUrl = null; resultUrl = null; file.value = "";
+    showImg(imgA, empA, null); showImg(imgB, empB, null);
+    badgeSet("等待处理", "");
+    btnRun.disabled = true; btnRun.textContent = "去除背景"; btnDown.disabled = true;
+    setMsg("");
+  };
+
+  /* ---- 打开页面先自检一次：服务在不在、Token 配没配 ---- */
+  ensureApi().then(h => {
+    if (h && !h.token)
+      setMsg("服务已在跑，但没读到 <code>REPLICATE_API_TOKEN</code>。设置环境变量后重启 <code>node server.js</code> 即可。", "warn");
+    else if (!h)
+      setMsg("还没连接本地服务：去背景功能需要在项目文件夹里执行 <code>node server.js</code>，再访问 <code>http://localhost:5173</code>。", "warn");
+  });
+})();
+
+/* ==========================================================
+   6. 第四屏：AI 图像生成（OpenRouter · 流式中间帧）
+   ========================================================== */
+(function(){
+  const promptEl = $("ggPrompt"), img = $("ggImg"), ph = $("ggPh"),
+        canvas = $("ggCanvas"), bar = $("ggBar"), meta = $("ggMeta"), msg = $("ggMsg"),
+        btnRun = $("ggRun"), btnDown = $("ggDown"), btnClear = $("ggClear"),
+        spin = $("ggSpin"), runText = $("ggRunText"),
+        svc = $("ggSvc"), svcText = $("ggSvcText");
+
+  const opts = { aspect_ratio: "1:1", quality: "high", background: "auto" };
+  let busy = false, lastB64 = null, timer = null, t0 = 0;
+
+  const setMsg = (t, k) => { msg.innerHTML = t || ""; msg.className = "gg-msg" + (t ? " on " + (k || "") : ""); };
+  const setSvc = (state, text) => { svc.className = "gg-svc" + (state ? " " + state : ""); svcText.textContent = text; };
+
+  /* ---- 选项芯片 ---- */
+  [["ggRatio","aspect_ratio"], ["ggQuality","quality"], ["ggBg","background"]].forEach(([id, key]) => {
+    $(id).addEventListener("click", e => {
+      const b = e.target.closest(".gg-chip");
+      if (!b) return;
+      [...$(id).querySelectorAll(".gg-chip")].forEach(c => c.classList.toggle("on", c === b));
+      opts[key] = b.dataset.v;
+    });
+  });
+
+  /* ---- 服务自检 ---- */
+  async function ensureApi(){
+    if (API_BASE !== null) return { ok: true, orKey: true };
+    const j = await findApi();
+    if (j){
+      const where = API_BASE ? API_BASE.replace(/^https?:\/\//, "") : location.host;
+      setSvc("on", j.orKey ? `本地服务已连接 · ${where}` : `服务已连接但缺少 OpenRouter Key · ${where}`);
+      return j;
+    }
+    setSvc("off", "未连接本地服务 · 请运行 node server.js");
+    return null;
+  }
+
+  /* ---- 计时 ---- */
+  const startTimer = () => {
+    t0 = Date.now();
+    timer = setInterval(() => {
+      const s = Math.round((Date.now() - t0) / 1000);
+      meta.innerHTML = `生成中<span class="t"> · 已用 ${s} 秒</span> · 下面是从模糊到清晰的中间帧`;
+    }, 1000);
+  };
+  const stopTimer = () => { clearInterval(timer); timer = null; };
+
+  const setBusy = on => {
+    busy = on;
+    btnRun.disabled = on;
+    spin.hidden = !on;
+    bar.classList.toggle("on", on);
+    runText.textContent = on ? "生成中…" : "生成图片";
+  };
+
+  /* ---- 生成 ---- */
+  btnRun.onclick = async () => {
+    if (busy) return;
+    const prompt = promptEl.value.trim();
+    if (!prompt) { setMsg("先写一句画面描述。", "err"); promptEl.focus(); return; }
+
+    const health = await ensureApi();
+    if (!health) { setMsg("连不上本地服务：请在项目文件夹执行 <code>node server.js</code>，再访问 <code>http://localhost:5173</code>。", "err"); return; }
+    if (!health.orKey) { setMsg("服务端没读到 <code>OPENROUTER_API_KEY</code>：设置环境变量后重启 <code>node server.js</code>。", "err"); return; }
+
+    setBusy(true); btnDown.disabled = true; setMsg("");
+    lastB64 = null; meta.innerHTML = "正在提交…";
+    img.hidden = true; ph.hidden = false; startTimer();
+
+    try{
+      const res = await fetch((API_BASE || "") + "/api/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, ...opts })
+      });
+
+      if (!res.ok){
+        const isJson = (res.headers.get("content-type") || "").includes("json");
+        const d = isJson ? await res.json().catch(() => ({})) : {};
+        throw new Error(d.error || (res.status === 404
+          ? "接口返回 404：当前页面不是 node server.js 打开的，改用 http://localhost:5173"
+          : `请求失败（${res.status}）`));
+      }
+
+      // 逐行读 SSE，边生成边刷新预览
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let buf = "", done = false, partials = 0;
+
+      while (!done){
+        const { value, done: fin } = await reader.read();
+        if (fin) break;
+        buf += dec.decode(value, { stream: true });
+        let i;
+        while ((i = buf.indexOf("\n\n")) >= 0){
+          const raw = buf.slice(0, i); buf = buf.slice(i + 2);
+          const line = raw.split("\n").find(l => l.startsWith("data:"));
+          if (!line) continue;
+          let ev; try { ev = JSON.parse(line.slice(5).trim()); } catch (_) { continue; }
+
+          if (ev.type === "start"){
+            meta.innerHTML = "已提交，模型开始生成…";
+          } else if (ev.type === "partial" && ev.b64){
+            partials++;
+            ph.hidden = true; img.hidden = false;
+            img.src = "data:image/png;base64," + ev.b64;
+          } else if (ev.type === "done" && ev.b64){
+            lastB64 = ev.b64; done = true;
+            ph.hidden = true; img.hidden = false;
+            img.src = `data:${ev.mediaType || "image/png"};base64,` + ev.b64;
+            const secs = Math.round((Date.now() - t0) / 1000);
+            const cost = (typeof ev.cost === "number") ? ` · 约 $${ev.cost.toFixed(3)}` : "";
+            meta.innerHTML = `完成<span class="t"> · 用时 ${secs} 秒</span>${cost}`;
+            setMsg("图片已生成，点「下载 PNG」保存。", "ok");
+            btnDown.disabled = false;
+            break;
+          } else if (ev.type === "error"){
+            throw new Error(ev.message || "生成失败");
+          }
+        }
+      }
+      if (!done) throw new Error("生成流提前结束，没拿到最终图片");
+      if (partials) console.log(`[图像生成] 收到 ${partials} 个中间帧`);
+    }catch(e){
+      setMsg("生成失败：" + (e.message || e), "err");
+      meta.innerHTML = "";
+      img.hidden = true; ph.hidden = false;
+    }finally{
+      stopTimer(); setBusy(false);
+    }
+  };
+
+  /* ---- 下载：base64 → Blob，避免超长 data URL 在部分浏览器被截断 ---- */
+  btnDown.onclick = () => {
+    if (!lastB64) return;
+    const bin = atob(lastB64);
+    const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([arr], { type: "image/png" }));
+    const a = document.createElement("a");
+    const name = (promptEl.value.trim().slice(0, 24) || "image").replace(/[\\/:*?"<>|]/g, "");
+    a.href = url; a.download = name + ".png";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  btnClear.onclick = () => {
+    promptEl.value = ""; lastB64 = null;
+    img.hidden = true; img.removeAttribute("src"); ph.hidden = false;
+    meta.innerHTML = ""; setMsg(""); btnDown.disabled = true;
+  };
+
+  ensureApi().then(h => {
+    if (h && !h.orKey)
+      setMsg("服务已在跑，但没读到 <code>OPENROUTER_API_KEY</code>。设置环境变量后重启 <code>node server.js</code> 即可。", "err");
+    else if (!h)
+      setMsg("还没连接本地服务：需要在项目文件夹里执行 <code>node server.js</code>，再访问 <code>http://localhost:5173</code>。", "err");
+  });
+})();
+
+/* 图片万一加载失败，先退到占位头像 avatar.svg；占位图也没有才画昵称首字，避免出现裂图 */
+(function(){
+  const el = $("avatar");
+  let triedFallback = false;
+  el.addEventListener("error", function(){
+    if (!triedFallback){
+      triedFallback = true;
+      this.src = "avatar.svg";
+      return;
+    }
+    const c = document.createElement("canvas");
+    c.width = c.height = 264;
+    const x = c.getContext("2d");
+    x.fillStyle = "#eef1fe"; x.fillRect(0,0,264,264);
+    x.fillStyle = "#4f6ef7";
+    x.font = "bold 120px -apple-system,'Microsoft YaHei',sans-serif";
+    x.textAlign = "center"; x.textBaseline = "middle";
+    x.fillText(PROFILE.nickname.slice(0,1), 132, 140);
+    this.src = c.toDataURL();
+  });
+})();
+</script>
+</body>
+</html>
